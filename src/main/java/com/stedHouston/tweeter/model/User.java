@@ -21,29 +21,33 @@ public class User {
     private String password;
     @OneToMany(mappedBy = "user")
     private List<Tweet> tweets;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
 
     public User() {
     }
 
-    public User(Long id, String first_name, String last_name, String email, String handle, String password) {
+    public User(Long id, String first_name, String last_name, LocalDate created_at, String email, String handle, String password, List<Tweet> tweets, Collection<Role> roles) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
-        this.created_at = LocalDate.now();
+        this.created_at = created_at;
         this.email = email;
         this.handle = handle;
         this.password = password;
+        this.tweets = tweets;
+        this.roles = roles;
     }
 
-    public User(String first_name, String last_name, String email, String handle, String password) {
+    public User(String first_name, String last_name, LocalDate created_at, String email, String handle, String password, List<Tweet> tweets, Collection<Role> roles) {
         this.first_name = first_name;
         this.last_name = last_name;
-        this.created_at = LocalDate.now();
+        this.created_at = created_at;
         this.email = email;
         this.handle = handle;
         this.password = password;
+        this.tweets = tweets;
+        this.roles = roles;
     }
 
     public Long getId() {
