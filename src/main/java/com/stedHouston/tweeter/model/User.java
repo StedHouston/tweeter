@@ -1,38 +1,41 @@
 package com.stedHouston.tweeter.model;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "app_user")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String first_name;
     private String last_name;
-    private Date created_at;
+    private LocalDate created_at = LocalDate.now();
     private String email;
     private String handle;
     private String password;
+    @OneToMany(mappedBy = "user")
+    private List<Tweet> tweets;
 
     public User() {
     }
 
-    public User(Long id, String first_name, String last_name, Date created_at, String email, String handle, String password) {
+    public User(Long id, String first_name, String last_name, String email, String handle, String password) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
-        this.created_at = created_at;
+        this.created_at = LocalDate.now();
         this.email = email;
         this.handle = handle;
         this.password = password;
     }
 
-    public User(String first_name, String last_name, Date created_at, String email, String handle, String password) {
+    public User(String first_name, String last_name, String email, String handle, String password) {
         this.first_name = first_name;
         this.last_name = last_name;
-        this.created_at = created_at;
+        this.created_at = LocalDate.now();
         this.email = email;
         this.handle = handle;
         this.password = password;
@@ -62,12 +65,12 @@ public class User {
         this.last_name = last_name;
     }
 
-    public Date getCreated_at() {
+    public LocalDate getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(Date created_at) {
-        this.created_at = created_at;
+    public void setCreated_at() {
+        this.created_at = LocalDate.now();
     }
 
     public String getEmail() {

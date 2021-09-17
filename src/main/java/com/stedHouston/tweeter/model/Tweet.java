@@ -8,10 +8,10 @@ import java.util.Date;
 public class Tweet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "app_user_id", referencedColumnName = "id")
     private User user;
     private String message;

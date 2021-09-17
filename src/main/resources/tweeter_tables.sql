@@ -13,8 +13,8 @@ create table tweet (
     app_user_id BIGINT REFERENCES app_user (id) NOT NULL,
     message VARCHAR(124) NOT NULL,
     retweet BOOL NOT NULL,
-    retweet_author_id BIGSERIAL,
-    created_at DATE NOT NULL,
+    retweet_author_id BIGINT REFERENCES app_user (id),
+    created_at TIMESTAMP NOT NULL,
     UNIQUE(app_user_id)
 );
 
