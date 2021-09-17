@@ -1,20 +1,26 @@
 package com.stedHouston.tweeter.service;
 
+import com.stedHouston.tweeter.model.Role;
 import com.stedHouston.tweeter.model.User;
+import com.stedHouston.tweeter.repository.RoleRepository;
 import com.stedHouston.tweeter.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     public void addUser(User user) {
@@ -28,5 +34,29 @@ public class UserService {
             throw new IllegalStateException("handle taken");
         }
         userRepository.save(user);
+    }
+
+    public User getUser(String handle) {
+        Optional<User> optionalUser = userRepository.findUserByHandle(handle);
+        if (optionalUser.isPresent()) {
+            return optionalUser.get();
+        } else {
+            throw new IllegalStateException("user does not exist");
+        }
+    }
+
+    public Role saveRole(Role role) {
+        return roleRepository.save(role);
+    }
+
+    public void addRoleToUser(String handle, String roleName) {
+        Optional<User> optionalUser = userRepository.findUserByHandle(handle);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            Role role = roleRepository.findByName(roleName);
+            user.getRoles().add(role);
+        } else {
+            throw new IllegalStateException("user does not exist");
+        }
     }
 }

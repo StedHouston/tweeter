@@ -2,11 +2,14 @@ package com.stedHouston.tweeter.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Table(name = "app_user")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,6 +21,8 @@ public class User {
     private String password;
     @OneToMany(mappedBy = "user")
     private List<Tweet> tweets;
+    @ManyToMany
+    private Collection<Role> roles = new ArrayList<>();
 
     public User() {
     }
@@ -95,6 +100,22 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Tweet> getTweets() {
+        return tweets;
+    }
+
+    public void setTweets(List<Tweet> tweets) {
+        this.tweets = tweets;
+    }
+
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
     }
 
     @Override
