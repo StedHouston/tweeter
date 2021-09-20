@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,7 +24,7 @@ public class UserService {
         this.roleRepository = roleRepository;
     }
 
-    public void addUser(User user) {
+    public User addUser(User user) {
         Optional<User> checkEmailDuplication = userRepository.findUserByEmail(user.getEmail());
         if (checkEmailDuplication.isPresent()) {
             throw new IllegalStateException("email taken");
@@ -33,7 +34,7 @@ public class UserService {
         if (checkHandleDuplication.isPresent()) {
             throw new IllegalStateException("handle taken");
         }
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     public User getUser(String handle) {
@@ -58,5 +59,9 @@ public class UserService {
         } else {
             throw new IllegalStateException("user does not exist");
         }
+    }
+
+    public List<User> getUsers() {
+        return userRepository.findAll();
     }
 }

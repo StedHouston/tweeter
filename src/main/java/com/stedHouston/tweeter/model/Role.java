@@ -10,8 +10,8 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    @ManyToMany
-    private List<User> users;
+//    @ManyToOne
+//    private List<User> users;
 
     public Role() {
     }
