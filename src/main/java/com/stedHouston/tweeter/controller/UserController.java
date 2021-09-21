@@ -6,6 +6,7 @@ import com.stedHouston.tweeter.model.User;
 import com.stedHouston.tweeter.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +23,8 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getUsers() {
+    public ResponseEntity<List<User>> getUsers(Authentication authentication) {
+        System.out.println("**************" + authentication.getName() + "******************");
         return ResponseEntity.ok().body(userService.getUsers());
     }
 
