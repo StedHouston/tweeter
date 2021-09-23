@@ -26,7 +26,7 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     @Override
     public UserDetails loadUserByUsername(String handle) throws UsernameNotFoundException {
-        Optional<User> optionalUser = userRepository.findUserByHandle(handle);
+        Optional<User> optionalUser = userRepository.findUserByUsername(handle);
         if(optionalUser.isEmpty()) {
             throw new UsernameNotFoundException("User not found in the database");
         }
@@ -37,7 +37,7 @@ public class UserService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         });
 
-        return new org.springframework.security.core.userdetails.User(user.getHandle(), user.getPassword(), authorities);
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
 
     @Autowired
@@ -53,7 +53,7 @@ public class UserService implements UserDetailsService {
             throw new IllegalStateException("email taken");
         }
 
-        Optional<User> checkHandleDuplication = userRepository.findUserByHandle(user.getHandle());
+        Optional<User> checkHandleDuplication = userRepository.findUserByUsername(user.getUsername());
         if (checkHandleDuplication.isPresent()) {
             throw new IllegalStateException("handle taken");
         }
@@ -62,8 +62,8 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    public User getUser(String handle) {
-        Optional<User> optionalUser = userRepository.findUserByHandle(handle);
+    public User getUser(String username) {
+        Optional<User> optionalUser = userRepository.findUserByUsername(username);
         if (optionalUser.isPresent()) {
             return optionalUser.get();
         } else {
@@ -75,8 +75,8 @@ public class UserService implements UserDetailsService {
         return roleRepository.save(role);
     }
 
-    public void addRoleToUser(String handle, String roleName) {
-        Optional<User> optionalUser = userRepository.findUserByHandle(handle);
+    public void addRoleToUser(String username, String roleName) {
+        Optional<User> optionalUser = userRepository.findUserByUsername(username);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             Role role = roleRepository.findByName(roleName);
