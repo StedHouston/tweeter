@@ -24,7 +24,6 @@ public class UserController {
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getUsers(Authentication authentication) {
-        System.out.println("**************" + authentication.getName() + "******************");
         return ResponseEntity.ok().body(userService.getUsers());
     }
 
