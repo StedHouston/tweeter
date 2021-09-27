@@ -2,15 +2,15 @@ package com.stedHouston.tweeter.model;
 
 public class RoleToUserForm {
 
-    private String handle;
+    private String username;
     private String roleName;
 
-    public String getHandle() {
-        return handle;
+    public String getUsername() {
+        return username;
     }
 
-    public void setHandle(String handle) {
-        this.handle = handle;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getRoleName() {

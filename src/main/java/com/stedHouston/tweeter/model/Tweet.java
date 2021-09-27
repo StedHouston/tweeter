@@ -1,6 +1,9 @@
 package com.stedHouston.tweeter.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -11,18 +14,18 @@ public class Tweet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "app_user_id", referencedColumnName = "id")
     private User user;
     private String message;
     private Boolean retweet;
     private Long retweet_author_id;
-    private Date created_at;
+    private LocalDate created_at;
 
     public Tweet() {
     }
 
-    public Tweet(User user, String message, Boolean retweet, Long retweet_author_id, Date created_at) {
+    public Tweet(User user, String message, Boolean retweet, Long retweet_author_id, LocalDate created_at) {
         this.user = user;
         this.message = message;
         this.retweet = retweet;
@@ -38,6 +41,7 @@ public class Tweet {
         this.id = id;
     }
 
+    @JsonBackReference
     public User getUser() {
         return user;
     }
@@ -70,11 +74,11 @@ public class Tweet {
         this.retweet_author_id = retweet_author_id;
     }
 
-    public Date getCreated_at() {
+    public LocalDate getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(Date created_at) {
-        this.created_at = created_at;
+    public void setCreated_at() {
+        this.created_at = LocalDate.now();;
     }
 }

@@ -1,5 +1,7 @@
 package com.stedHouston.tweeter.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -106,6 +108,7 @@ public class User {
         this.password = password;
     }
 
+    @JsonManagedReference
     public List<Tweet> getTweets() {
         return tweets;
     }

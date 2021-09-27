@@ -6,10 +6,12 @@ import com.stedHouston.tweeter.repository.TweetRepository;
 import com.stedHouston.tweeter.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
+@Transactional
 public class TweetService {
 
     private final TweetRepository tweetRepository;
@@ -21,9 +23,10 @@ public class TweetService {
         this.userRepository = userRepository;
     }
 
-    public void saveTweet(Tweet tweet, String handle) {
-        Optional<User> optionalUser = userRepository.findUserByHandle(handle);
+    public Tweet saveTweet(Tweet tweet, String username) {
+        Optional<User> optionalUser = userRepository.findUserByUsername(username);
         User user = optionalUser.get();
-        user.getTweets().add(tweet);
+        tweet.setUser(user);
+        return tweetRepository.save(tweet);
     }
 }

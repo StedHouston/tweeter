@@ -1,6 +1,7 @@
 package com.stedHouston.tweeter.service;
 
 import com.stedHouston.tweeter.model.Role;
+import com.stedHouston.tweeter.model.Tweet;
 import com.stedHouston.tweeter.model.User;
 import com.stedHouston.tweeter.repository.RoleRepository;
 import com.stedHouston.tweeter.repository.UserRepository;
@@ -55,15 +56,15 @@ public class UserService implements UserDetailsService {
 
         Optional<User> checkHandleDuplication = userRepository.findUserByUsername(user.getUsername());
         if (checkHandleDuplication.isPresent()) {
-            throw new IllegalStateException("handle taken");
+            throw new IllegalStateException("username taken");
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
-    public User getUser(String username) {
-        Optional<User> optionalUser = userRepository.findUserByUsername(username);
+    public User getUser(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
             return optionalUser.get();
         } else {
